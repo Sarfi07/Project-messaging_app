@@ -39,4 +39,5 @@ model Message {
   room      Room     @relation(fields: [room_id], references: [id])
   room_id   String
   createdAt DateTime @default(now())
+  type      String?
 }

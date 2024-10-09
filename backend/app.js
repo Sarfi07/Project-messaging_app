@@ -84,9 +84,10 @@ wss.on("connection", (ws, req) => {
       ws.user = user;
 
       ws.on("message", async (message) => {
-        console.log("Received:", JSON.parse(message));
+        console.log("Received");
         const parsedMessage = JSON.parse(message);
-        const { action, content, roomId, name } = parsedMessage;
+        const { action, content, roomId, name, type, fileBase64 } =
+          parsedMessage;
         // message > roomId, content;
         // make a new message instance and connect it with user and room
 
@@ -101,6 +102,11 @@ wss.on("connection", (ws, req) => {
         if (action === "createRoom") {
           console.log("creating room...");
           createRoom(ws, name);
+        }
+
+        if (type === "image") {
+          // todo
+          handleImage(ws, fileBase64, roomId);
         }
       });
 
@@ -121,6 +127,28 @@ wss.on("connection", (ws, req) => {
     }
   });
 });
+
+const handleImage = async (ws, fileBase64, roomId) => {
+  if (!rooms[roomId]) {
+    console.log("Room does not exists");
+    return;
+  }
+
+  const newImage = await prisma.message.create({
+    data: {
+      content: fileBase64,
+      room: { connect: { id: roomId } },
+      sender: { connect: { id: ws.user.id } },
+      type: "image",
+    },
+  });
+
+  rooms[roomId].forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(newImage));
+    }
+  });
+};
 
 const handleMessage = async (ws, content, roomId) => {
   if (!rooms[roomId]) {

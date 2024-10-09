@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 interface Chat {
   id: string;
+  name: string;
 }
 
 const HomePage = () => {
@@ -72,7 +73,7 @@ const HomePage = () => {
                   to={`/chat/${room.id}`}
                   className="text-blue-500 hover:underline"
                 >
-                  Room ID: {room.id}
+                  {room.name ? room.name : room.id}
                 </Link>
               </li>
             ))}
