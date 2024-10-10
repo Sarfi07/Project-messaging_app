@@ -143,7 +143,15 @@ router.get(
           id: roomId,
         },
         include: {
-          messages: true,
+          messages: {
+            include: {
+              sender: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
       if (room) {
