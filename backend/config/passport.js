@@ -23,7 +23,7 @@ passport.use(
 
         // If user is not found
         if (!user) {
-          return done(null, false, { message: "Invalid credentials or role" });
+          return done(null, false, { message: "Invalid credentials" });
         }
 
         // Compare the provided password with the stored hash
