@@ -16,7 +16,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const ws = new WebSocket(
-      `ws://${import.meta.env.VITE_BACKEND_WS_URL}/?token=${token}`
+      `wss://${import.meta.env.VITE_BACKEND_WS_URL}/?token=${token}`
     );
 
     ws.onopen = () => {
