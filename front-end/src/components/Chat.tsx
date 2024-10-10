@@ -1,16 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import MessagesComp from "./Messages";
+import { Message } from "./types";
+import ChatForm from "./ChatForm";
 
 interface ChatProps {
   socket: WebSocket;
-}
-interface Message {
-  id: string;
-  content: string;
-  sender_id: string;
-  room_Id: string;
-  createdAt: string;
-  type: string;
 }
 
 const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
@@ -29,6 +24,10 @@ const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  });
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -139,16 +138,6 @@ const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
     setIsModelOpen(false);
   };
 
-  const createImageEl = (src: string) => {
-    return (
-      <img
-        src={src}
-        alt="Message content"
-        className="mt-2 w-128 h-128 object-cover rounded-lg"
-      />
-    );
-  };
-
   return (
     <>
       <div className="" id="gridContainer">
@@ -157,80 +146,21 @@ const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
           id="messsagesContainer"
           className="flex-1 p-4 overflow-y-auto bg-gray-100"
         >
-          <ul className="space-y-2 flex flex-col gap-4">
-            {messages.map((msg, index) => (
-              <li
-                key={msg.id || index}
-                className={`p-2 rounded-lg shadow-md mr-4 ${
-                  msg.sender_id === userId
-                    ? "bg-blue-500 text-white self-end"
-                    : "bg-white text-black self-start"
-                } max-w-xs`}
-                style={{
-                  alignSelf:
-                    msg.sender_id === userId ? "flex-end" : "flex-start",
-                }}
-              >
-                {msg.type === "image"
-                  ? createImageEl(msg.content)
-                  : msg.content}
-                {/* Timestamp */}
-                <div
-                  className={`text-xs text-gray-500 mt-1 text-right ${
-                    msg.sender_id === userId
-                      ? "text-white self-start"
-                      : " text-black self-end"
-                  }`}
-                >
-                  {new Date(msg.createdAt).toLocaleTimeString()}{" "}
-                  {/* Format to display only time */}
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className="" ref={messagesEndRef}></div>
+          <MessagesComp
+            messages={messages}
+            userId={userId}
+            messagesEndRef={messagesEndRef}
+          />
         </div>
 
         {/* Message input section */}
         <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 p-2">
-          <form
-            id="inputForm"
-            onSubmit={handleSubmit}
-            className="flex items-center gap-2 relative"
-          >
-            <div className="relative flex-grow">
-              <label
-                htmlFor="image"
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 cursor-pointer ml-1"
-              >
-                📎
-              </label>
-
-              <input
-                type="file"
-                name="image"
-                id="image"
-                className="hidden"
-                onChange={handleFileSelect}
-              />
-
-              <input
-                autoFocus
-                className="w-full pl-8 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type a message..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="px-4 py-2 text-white bg-blue-500 rounded-full hover:bg-blue-600"
-            >
-              Send
-            </button>
-          </form>
+          <ChatForm
+            handleSubmit={handleSubmit}
+            handleFileSelect={handleFileSelect}
+            message={message}
+            setMessage={setMessage}
+          />
 
           {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
