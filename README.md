@@ -1,20 +1,20 @@
-# Monorepo Template for Express.js Backend and Vite Frontend
+# Real-Time Messaging App
 
-This repository serves as a template for building a simple web application with a **back end** powered by **Express.js** (using ES6 syntax) and a **front end** built with **Vite**. This monorepo structure enables efficient management and development of both the backend and frontend projects.
+This project is a real-time chat application where users can sign up, authenticate, create or join chat rooms, and engage in conversations. It is built with modern technologies like WebSockets for real-time communication and Prisma for database management.
 
 ## Features
 
-- **Express.js Backend**: A fully functional Express.js application using modern JavaScript (ES6) for a clean and modular codebase.
-- **Vite Frontend**: A fast and optimized frontend built with Vite, allowing for quick development and hot module replacement.
-- **Monorepo Structure**: Organized folder structure for managing multiple projects in a single repository.
-- **Easily Extendable**: Ready to be customized and extended for various web applications.
+- **User Authentication**: Users can sign up, log in, and securely access the application with JWT-based authentication.
+- **Chat Rooms**: Users can create or join chat rooms to communicate with others in real time.
+- **Profile Management**: After signing up, users can edit their profiles and update their details.
+- **Real-Time Messaging**: Users can send and receive messages in real time within chat rooms.
+- **File Sharing (Coming Soon)**: Currently, users can send text messages, but file downloading functionality has not been implemented yet.
 
-## Getting Started
+## Technologies Used
 
-### Prerequisites
-
-Ensure you have the following installed:
-
-- [Node.js](https://nodejs.org/en/download/) (version 14 or higher)
-- [npm](https://www.npmjs.com/get-npm) or [yarn](https://classic.yarnpkg.com/en/docs/install) for package management
-
+- **Frontend**: React (with Vite), TypeScript
+- **Backend**: Express.js, Node.js, Prisma, WebSocket (ws library)
+- **Database**: PostgreSQL (via Prisma ORM)
+- **Authentication**: JSON Web Tokens (JWT), Passport.js
+- **Hosting**: Xata for the database, other backend hosting via Render
+- **Real-Time Communication**: WebSocket (ws library)
