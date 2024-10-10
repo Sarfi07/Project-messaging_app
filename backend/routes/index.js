@@ -52,6 +52,7 @@ router.post("/signup", async (req, res, next) => {
       if (user) {
         await prisma.room.create({
           data: {
+            name: "Your Default Room",
             participants: {
               connect: [{ id: user.id }],
             },
@@ -69,11 +70,16 @@ router.post("/signup", async (req, res, next) => {
       });
 
       // Send a successful response back
-      return res.status(200).json({ message: "User signed up successfully" });
+      return res
+        .status(200)
+        .json({ message: "User signed up successfully", success: true });
     } else {
       return res
         .status(403)
-        .json({ message: "Username already exists, try a different one." });
+        .json({
+          message: "Username already exists, try a different one.",
+          success: false,
+        });
     }
   } catch (err) {
     // Catch any errors and send an error response

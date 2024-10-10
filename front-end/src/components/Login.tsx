@@ -5,11 +5,12 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate(); // Get the navigate function
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/login`,
@@ -37,6 +38,8 @@ function Login() {
       } else {
         setMessage("An unknown error is occurred.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,7 +90,7 @@ function Login() {
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
           >
-            Login
+            {loading ? "Logging you in..." : "Login"}
           </button>
           {message && (
             <p

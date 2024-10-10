@@ -6,9 +6,10 @@ import ChatForm from "./ChatForm";
 
 interface ChatProps {
   socket: WebSocket;
+  setSocket: React.Dispatch<React.SetStateAction<WebSocket | null>>;
 }
 
-const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
+const ChatComponent: React.FC<ChatProps> = ({ socket, setSocket }) => {
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const { roomId } = useParams();
@@ -19,6 +20,26 @@ const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
 
   const socketRef = useRef(socket);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ws = new WebSocket(`ws://${import.meta.env.VITE_BACKEND_WS_URL}`);
+
+    ws.onopen = () => {
+      console.log("connection established");
+
+      setSocket(ws);
+    };
+
+    ws.onerror = (e) => {
+      console.error("Websocket error:", e);
+    };
+
+    ws.onclose = (event) => {
+      console.log("connection closed", event);
+    };
+
+    return () => ws.close();
+  }, []);
 
   // for display new message in view
   const scrollToBottom = () => {
@@ -137,6 +158,8 @@ const ChatComponent: React.FC<ChatProps> = ({ socket }) => {
     setFileInfo("");
     setIsModelOpen(false);
   };
+
+  if (!socket) return <div>Loading...</div>;
 
   return (
     <>

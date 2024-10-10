@@ -26,16 +26,17 @@ function Signup() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to sign up");
-      }
-
       // Optionally, handle the response (e.g., store the token, navigate)
       const data = await response.json();
-      console.log("Signup successful", data);
+
+      if (data.success) {
+        console.log("Signup successful", data);
+        navigate("/login");
+      } else {
+        throw new Error(data.message);
+      }
 
       // Redirect to login or home page after successful signup
-      navigate("/login");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

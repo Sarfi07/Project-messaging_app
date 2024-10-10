@@ -30,7 +30,6 @@ const HomePage = () => {
 
       const data = await response.json();
       setChats(data);
-      console.log(data);
     };
 
     fetchChats();
