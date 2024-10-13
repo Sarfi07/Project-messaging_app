@@ -148,7 +148,7 @@ const handleMessage = async (ws, content, roomId) => {
   });
 };
 
-const joinRoom = (ws, roomId) => {
+const joinRoom = async (ws, roomId) => {
   if (!rooms[roomId]) {
     rooms[roomId] = [];
   }
