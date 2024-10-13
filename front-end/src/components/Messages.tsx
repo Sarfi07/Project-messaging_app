@@ -43,7 +43,7 @@ const Messages: React.FC<MessagesProps> = ({
                 : " text-black self-end"
             }`}
           >
-            {new Date(msg.createdAt).toLocaleTimeString()}{" "}
+            {new Date(msg.createdAt).toLocaleString()}{" "}
             {/* Format to display only time */}
           </div>
         </li>

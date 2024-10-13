@@ -6,32 +6,27 @@
   display: grid;
   grid-template-rows: 90vh 10vh;
   width: 60vw;
-  margin-left: auto;
-  margin-right: auto;
 
   #messagesContainer {
     grid-row: 1/2;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #inputForm {
     grid-row: 2/3;
     width: 60%;
-    margin: 1rem auto 1rem auto;
   }
 }
 
 @media (max-width: 720px) {
   #gridContainer {
     width: 90vw;
-    margin: 0;
-    padding: 0;
-  }
 
-  #inputForm {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    #inputForm {
+      width: 100%;
+      margin: auto;
+      padding: 0.5rem;
+    }
   }
 }
