@@ -6,7 +6,7 @@
   display: grid;
   grid-template-rows: 90vh 10vh;
   width: 60vw;
-
+  margin: auto;
   #messagesContainer {
     grid-row: 1/2;
     margin-left: auto;
@@ -16,6 +16,9 @@
   #inputForm {
     grid-row: 2/3;
     width: 60%;
+    margin: auto;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
   }
 }
 
