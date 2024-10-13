@@ -15,7 +15,19 @@
 
   #inputForm {
     grid-row: 2/3;
-    width: 60vw;
+    width: 100%;
     margin: 1rem auto 1rem auto;
+  }
+}
+
+@media (max-width: 720px) {
+  #gridContainer {
+    width: 90vw;
+    margin: 0;
+    padding: 0;
+  }
+
+  #inputForm {
+    width: 100%;
   }
 }
